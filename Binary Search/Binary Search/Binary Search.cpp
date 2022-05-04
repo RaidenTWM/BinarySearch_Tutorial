@@ -63,14 +63,14 @@ int BinarySearch(int array[], int start, int end, int key)
 }
 int InterpolatedBinarySearch(int array[], int start, int end, int key)
 {
-    while (start <= end)
+    while (start <= end && key >= array[start] && key <= array[end])
     {
-        int pivot = (start + end) / 2;
+        int pivot = start + (end - start) * ((key - array[start]) / (array[end] - array[start]));
 
         PrintArray(array, key, start, end, pivot);
         if (array[pivot] == key) { return pivot; }
-        if (key < array[pivot]) { end = pivot - 1; }
-        else { start = pivot + 1; }
+        if (key > array[pivot]) { start = pivot + 1; }
+        else { end = pivot - 1; }
     }
     return -1;
 }
