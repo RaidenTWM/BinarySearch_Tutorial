@@ -5,7 +5,7 @@ int comparisons = 0;
 
 
 void BubbleSort(int array[], int n);
-void PrintArray(int array[], int n);
+void PrintArray(int a[], int n, int start, int end, int pivot);
 void Swap(int& a, int& b);
 bool Bigger(int& a, int& b);
 void OptimisedBubbleSort(int array[], int n);
@@ -50,6 +50,7 @@ int BinarySearch(int array[], int start, int end, int key)
     while (start <= end)
     {
         int pivot = (start + end) / 2;
+        PrintArray(array, key, start, end, pivot);
         if (array[pivot] == key) { return pivot; }
         if (key < array[pivot]) { end = pivot- 1; }
         else { start = pivot + 1; }
@@ -77,14 +78,18 @@ void BubbleSort(int array[], int n)
         }
     }
 }
-void PrintArray(int array[], int n)
+void PrintArray(int a[], int n, int start, int end, int pivot)
 {
-    for (int i = 0; i < n; ++i)
+    for (int i = 0; i != n; i++)
     {
-        std::cout << array[i] << ",\t";
-        if (i % 10 == 9) { std::cout << std::endl; }
+        if (i == start) { std::cout << "["; }
+        else if (i == pivot) { std::cout << "<"; }
+        
+        if (i < start || i > end) { std::cout << (a[i] < 10 ? "." : ".."); }
+        else { std::cout << a[i]; }
+
+        if (i + 1 != pivot) { std::cout << (i == end ? "]" : (i + 1 != start ? (i != pivot ? " " : ">") : "")); }
     }
-    std::cout << std::endl;
     std::cout << std::endl;
 }
 void Swap(int& a, int& b)
