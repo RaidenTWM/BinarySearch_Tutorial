@@ -11,6 +11,8 @@ bool Bigger(int& a, int& b);
 void OptimisedBubbleSort(int array[], int n);
 void CocktailShakerSort(int array[], int n);
 
+int BinarySearch(int array[], int start, int end, int key);
+
 int main()
 {
     //Define our data
@@ -26,7 +28,14 @@ int main()
 
     while (true)
     {
-        std::cout << std::endl << std::endl << "Enter a number to find in the sequence: -1 to end" << std::endl;
+        std::cout << "Enter a number to find in the sequence: -1 to end" << std::endl;
+        int search_key = -1;
+        std::cin >> search_key;
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        if (search_key == -1) { break; }
+        int r = BinarySearch(array_to_be_sorted, 0, array_size - 1,search_key);
+        if (r == -1) { std::cout << "Couldn't find " <<search_key << " in the list" << std::endl << std::endl; }
+        else { std::cout << "Found " <<search_key << " at position " << r << std::endl << std::endl; }
     }
 
 
@@ -34,6 +43,20 @@ int main()
     system("pause");
     return 0;
 }
+
+
+int BinarySearch(int array[], int start, int end, int key)
+{
+    while (start <= end)
+    {
+        int pivot = (start + end) / 2;
+        if (array[pivot] == key) { return pivot; }
+        if (key < array[pivot]) { end = pivot- 1; }
+        else { start = pivot + 1; }
+    }
+    return -1;
+}
+
 
 void BubbleSort(int array[], int n)
 {
