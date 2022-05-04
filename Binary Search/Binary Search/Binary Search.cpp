@@ -12,6 +12,7 @@ void OptimisedBubbleSort(int array[], int n);
 void CocktailShakerSort(int array[], int n);
 
 int BinarySearch(int array[], int start, int end, int key);
+int InterpolatedBinarySearch(int array[], int start, int end, int key);
 
 int main()
 {
@@ -36,6 +37,9 @@ int main()
         int r = BinarySearch(array_to_be_sorted, 0, array_size - 1,search_key);
         if (r == -1) { std::cout << "Couldn't find " <<search_key << " in the list" << std::endl << std::endl; }
         else { std::cout << "Found " <<search_key << " at position " << r << std::endl << std::endl; }
+        r = InterpolatedBinarySearch(array_to_be_sorted, 0, array_size - 1, search_key);
+        if (r == -1) { std::cout << "Couldn't find " << search_key << " in the list" << std::endl << std::endl; }
+        else { std::cout << "Found " << search_key << " at position " << r << std::endl << std::endl; }
     }
 
 
@@ -53,6 +57,19 @@ int BinarySearch(int array[], int start, int end, int key)
         PrintArray(array, key, start, end, pivot);
         if (array[pivot] == key) { return pivot; }
         if (key < array[pivot]) { end = pivot- 1; }
+        else { start = pivot + 1; }
+    }
+    return -1;
+}
+int InterpolatedBinarySearch(int array[], int start, int end, int key)
+{
+    while (start <= end)
+    {
+        int pivot = (start + end) / 2;
+
+        PrintArray(array, key, start, end, pivot);
+        if (array[pivot] == key) { return pivot; }
+        if (key < array[pivot]) { end = pivot - 1; }
         else { start = pivot + 1; }
     }
     return -1;
@@ -80,15 +97,20 @@ void BubbleSort(int array[], int n)
 }
 void PrintArray(int a[], int n, int start, int end, int pivot)
 {
-    for (int i = 0; i != n; i++)
+    for (int i = 0; i != n; ++i)
     {
-        if (i == start) { std::cout << "["; }
-        else if (i == pivot) { std::cout << "<"; }
-        
-        if (i < start || i > end) { std::cout << (a[i] < 10 ? "." : ".."); }
-        else { std::cout << a[i]; }
+        if (i == start)
+            std::cout << "[";
+        else if (i == pivot)
+            std::cout << "<";
 
-        if (i + 1 != pivot) { std::cout << (i == end ? "]" : (i + 1 != start ? (i != pivot ? " " : ">") : "")); }
+        if (i<start || i>end)
+            std::cout << (a[i] < 10 ? "." : "..");
+        else
+            std::cout << a[i];
+
+        if (i + 1 != pivot)
+            std::cout << (i == end ? "]" : (i + 1 != start ? (i != pivot ? " " : ">") : ""));
     }
     std::cout << std::endl;
 }
